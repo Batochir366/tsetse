@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { Webhook } from "svix";
 import UserModel from "../model/user.model";
 
@@ -8,10 +7,20 @@ export const clerkWebhook = async (req: Request, res: Response) => {
   const wh = new Webhook(WEBHOOK_SECRET);
 
   try {
+    // Headers байх эсэхийг шалгах
+    const svixId = req.headers["svix-id"] as string;
+    const svixTimestamp = req.headers["svix-timestamp"] as string;
+    const svixSignature = req.headers["svix-signature"] as string;
+
+    if (!svixId || !svixTimestamp || !svixSignature) {
+      return res.status(400).send("Missing Svix headers");
+    }
+
+    // Webhook verify
     const evt: any = wh.verify(JSON.stringify(req.body), {
-      "svix-id": req.headers["svix-id"] as string,
-      "svix-timestamp": req.headers["svix-timestamp"] as string,
-      "svix-signature": req.headers["svix-signature"] as string,
+      "svix-id": svixId,
+      "svix-timestamp": svixTimestamp,
+      "svix-signature": svixSignature,
     });
 
     const eventType = evt.type;

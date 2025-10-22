@@ -5,11 +5,14 @@ import connectMongoDB from "./lib/connectDb";
 import { clerkWebhook } from "./controllers/webhookController";
 
 dotenv.config();
-connectMongoDB;
-
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(express.json());
+connectMongoDB();
 app.get("/", (req, res) => {
   res.send("Hello from backend");
 });

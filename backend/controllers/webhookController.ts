@@ -29,7 +29,7 @@ export const clerkWebhook = async (req: Request, res: Response) => {
       const { id, username, first_name, last_name, image_url } = evt.data;
       await UserModel.create({
         clerkId: id,
-        userName: username,
+        userName: username || first_name + " " + last_name,
         firstName: first_name,
         lastName: last_name,
         photo: image_url,

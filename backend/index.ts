@@ -2,8 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import webhookRoute from "./routes/webhook.ts";
-import connectMongoDB from "./lib/connectDb.ts";
+import webhookRoute from "./routes/webhook";
+import connectMongoDB from "./lib/connectDb";
 
 dotenv.config();
 connectMongoDB();
@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 });
 app.use("/webhooks", webhookRoute);
 
-app.listen(8000, () =>
-  console.log(`🚀 Backend running on http://localhost:8000`)
+const port =  8000;
+app.listen(port, "0.0.0.0", () =>
+  console.log(`🚀 Backend running on http://0.0.0.0:${port}`)
 );

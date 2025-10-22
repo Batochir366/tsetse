@@ -2,8 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import webhookRoute from "./routes/webhook";
-import connectMongoDB from "./lib/connectDb";
+import webhookRoute from "./routes/webhook.ts";
+import connectMongoDB from "./lib/connectDb.ts";
 
 dotenv.config();
 connectMongoDB();

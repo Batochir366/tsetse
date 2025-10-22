@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import { Webhook } from "svix";
-import UserModel from "../model/User";
+import UserModel from "../model/user.model";
 
 export const clerkWebhook = async (req: Request, res: Response) => {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET!;

@@ -1,31 +1,21 @@
-import express, { json } from "express";
+import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
-import { configDotenv } from "dotenv";
-import connectMongoDB from "./connectDb";
-import usersRouter from "./routes/user";
-// import { initWebSocket } from "./websocket";
-// import http from "http";
 
-const app = express();
+import webhookRoute from "./routes/webhook";
+import connectMongoDB from "./lib/connectDb";
 
-configDotenv();
-
-const port = 8080;
-
+dotenv.config();
 connectMongoDB();
 
+const app = express();
 app.use(cors());
-app.use(json());
-
+app.use(express.json());
 app.get("/", (req, res) => {
-  res.send("hello world");
+  res.send("Hello from backend");
 });
+app.use("/webhooks", webhookRoute);
 
-app.use("/user", usersRouter);
-
-// const server = http.createServer(app);
-// initWebSocket(server);
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+app.listen(8000, () =>
+  console.log(`🚀 Backend running on http://localhost:8000`)
+);
